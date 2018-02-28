@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Form.Views.SearchPage"
+             Title="Search"
+             Focused="OnFocused">
+    <!--<ContentPage.ToolbarItems>
+        <ToolbarItem Text="Save" Clicked="Save_Clicked" />
+    </ContentPage.ToolbarItems>-->
+    <ContentPage.Content>
+        <StackLayout Spacing="20" Padding="15">
+            <Label Text="Search Keyword" FontSize="Large" />
+            <Entry x:Name="EntryKeyword" Text="{Binding Keyword}" FontSize="Large" Completed="SearchLine"/>
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button Text="Search Line" Grid.Row="0" Grid.Column="0" Clicked="SearchLine"/>
+                <Button Text="Search Station" Grid.Row="0" Grid.Column="1" Clicked="SearchStation"/>
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
