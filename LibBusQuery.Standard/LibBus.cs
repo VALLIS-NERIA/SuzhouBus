@@ -14,6 +14,11 @@ using HtmlAgilityPack;
 //using PCLWebUtility;
 namespace LibBusQuery {
     public class BusQuery {
+        /* search:
+         * http://www.szjt.gov.cn/BusQuery/APTSLine.aspx?cid=175ecd8d-c39d-4116-83ff-109b946d7cb4&__VIEWSTATE=%2FwEPDwUJNDk3MjU2MjgyD2QWAmYPZBYCAgMPZBYCAgEPZBYCAgYPDxYCHgdWaXNpYmxlaGRkZJoicdBkB9yhQuA%2FOdf79KTvSO4XgMh67pTvZ2uF3nG0&__VIEWSTATEGENERATOR=385F41AE&__EVENTVALIDATION=%2FwEWAwLmzYecBgL88Oh8AqX89aoKoyB8TWJGCcftPn6FMApjVOu8taYx65eqI%2BF5zhRrstE%3D&ctl00%24MainContent%24LineName=178&ctl00%24MainContent%24SearchLine=%E6%90%9C%E7%B4%A2
+         * query:
+         * http://www.szjt.gov.cn/BusQuery/APTSLine.aspx?cid=175ecd8d-c39d-4116-83ff-109b946d7cb4&LineGuid=5411cd57-51d2-40e1-9ba9-2dc6a49bfc54 
+         */
         private const string BaseUrl = "http://www.szjt.gov.cn/BusQuery/{0}?cid={1}";
         private const string LineAspx = "APTSLine.aspx";
         private const string StationAspx = "default.aspx";

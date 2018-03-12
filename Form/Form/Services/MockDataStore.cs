@@ -5,19 +5,19 @@ using System.Threading.Tasks;
 using LibBusQuery;
 using Form.Models;
 using Xamarin.Forms.Xaml;
+using PCLStorage;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
-[assembly: Xamarin.Forms.Dependency(typeof(Form.Services.MockDataStore))]
+[assembly: Xamarin.Forms.Dependency(typeof(Form.Services.MockDataStore<IInfoEntry>))]
 namespace Form.Services
 {
-    public class MockDataStore : IDataStore<IInfoEntry>
-    {
-        List<IInfoEntry> items;
+    public class MockDataStore<T>  : IDataStore<T> where T : IInfoEntry {
+        List<T> items;
 
         public MockDataStore()
         {
-            items = new List<IInfoEntry>();
-            var mockItems = new List<IInfoEntry>
+            items = new List<T>();
+            var mockItems = new List<T>
             {
 
             };
@@ -28,14 +28,20 @@ namespace Form.Services
             }
         }
 
-        public async Task<bool> AddItemAsync(IInfoEntry item)
+        public Task<bool> LoadAsync(string fileName) { throw new NotImplementedException(); }
+
+        public Task<bool> SaveAsync(string fileName) { throw new NotImplementedException(); }
+
+        public Task<bool> SaveAsAsync(string fileName) { throw new NotImplementedException(); }
+
+        public async Task<bool> AddItemAsync(T item)
         {
             items.Add(item);
 
             return await Task.FromResult(true);
         }
 
-        public async Task<bool> UpdateItemAsync(IInfoEntry item)
+        public async Task<bool> UpdateItemAsync(T item)
         {
             var _item = items.FirstOrDefault(arg => arg.Id == item.Id);
             items.Remove(_item);
@@ -44,7 +50,7 @@ namespace Form.Services
             return await Task.FromResult(true);
         }
 
-        public async Task<bool> DeleteItemAsync(IInfoEntry item)
+        public async Task<bool> DeleteItemAsync(T item)
         {
             var _item = items.FirstOrDefault(arg => arg.Id == item.Id);
             items.Remove(_item);
@@ -52,12 +58,12 @@ namespace Form.Services
             return await Task.FromResult(true);
         }
 
-        public async Task<IInfoEntry> GetItemAsync(string id)
+        public async Task<T> GetItemAsync(string id)
         {
             return await Task.FromResult(items.FirstOrDefault(s => s.Id == id));
         }
 
-        public async Task<IEnumerable<IInfoEntry>> GetItemsAsync(bool forceRefresh = false)
+        public async Task<IEnumerable<T>> GetItemsAsync(bool forceRefresh = false)
         {
             return await Task.FromResult(items);
         }
