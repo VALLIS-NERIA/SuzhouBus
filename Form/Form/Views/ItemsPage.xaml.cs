@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using static Form.Utils;
+//using static Form.Utils;
 using Form.Models;
 using Form.Views;
 using Form.ViewModels;
@@ -48,18 +48,13 @@ namespace Form.Views {
             //await Navigation.PushModalAsync(new NavigationPage(new SearchPage()));
         }
 
-        protected override void OnAppearing() {
-            base.OnAppearing();
-
-            if (viewModel.Items.Count == 0)
-                viewModel.LoadItemsCommand.Execute(null);
-        }
+        protected override void OnAppearing() { base.OnAppearing(); }
 
         private void Button_OnClicked(object sender, EventArgs e) {
             var button = sender as Button;
             var item = button.BindingContext as IInfoEntry;
             if (item == null) return;
-            
+
             Navigation.PushAsync(new ItemsPage(item));
             //SendFetchMessage(this, () => item.LinkClick());
             //MessagingCenter.Send<ContentPage,Func<IEnumerable<IInfoEntry>>>(this, "FetchReplaceItems", ()=>item.LinkClick());
@@ -68,6 +63,11 @@ namespace Form.Views {
             //var list = item.LinkClick();
             //this.viewModel.ReplaceItems(this, list);
             //this.IsBusy = false;
+        }
+
+        private void ItemsListView_OnRefreshing(object sender, EventArgs e) {
+            this.viewModel.Refresh();
+            ((ListView) sender).IsRefreshing = false;
         }
     }
 }

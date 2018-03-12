@@ -6,7 +6,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using LibBusQuery;
 using Form.Models;
-using static Form.Utils;
+//using static Form.Utils;
 
 namespace Form.Views {
     [XamlCompilation(XamlCompilationOptions.Compile)]

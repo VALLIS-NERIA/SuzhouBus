@@ -11,6 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Services\MockDataStore.cs" />
     <Compile Remove="Utils.cs" />
   </ItemGroup>
 

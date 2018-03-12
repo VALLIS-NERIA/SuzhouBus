@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using static Form.Utils;
+//using static Form.Utils;
 using Form.Models;
 using Form.ViewModels;
 using LibBusQuery;
@@ -36,10 +36,8 @@ namespace Form.Views
         }
 
 	    private async void SeeDetail(object sender, EventArgs e) {
-	        //var list = this.viewModel.Click();
-            SendFetchMessage(this,()=> this.viewModel.Click());
-	        //MessagingCenter.Send<ContentPage, IEnumerable<IInfoEntry>>(this, "ReplaceItems", list);
-	        await Navigation.PopModalAsync();
+            //var list = this.viewModel.Click();
+	        await Navigation.PushAsync(new ItemsPage(viewModel.Item));
         }
     }
 }

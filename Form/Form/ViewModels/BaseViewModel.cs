@@ -12,7 +12,7 @@ namespace Form.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        public IDataStore<IInfoEntry> DataStore => DependencyService.Get<IDataStore<IInfoEntry>>() ?? new MockDataStore();
+        //public IDataStore<IStoredEntry> DataStore => DependencyService.Get<IDataStore<IStoredEntry>>() ?? new FileDataStore<IStoredEntry>();
 
         bool isBusy = false;
         public bool IsBusy

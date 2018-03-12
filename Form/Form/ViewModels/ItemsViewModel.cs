@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
+using Form.Services;
 using Xamarin.Forms;
 
 //using Form.Models;
@@ -11,31 +13,66 @@ using LibBusQuery;
 using Form.Views;
 
 namespace Form.ViewModels {
+    public class SavedItemsViewModel : ItemsViewModel {
+        public Command LoadItemsCommand { get; set; }
+        public FileDataStore<StoredLine> FavLines { get; set; }
+        public FileDataStore<StoredStation> FavStations { get; set; }
+
+        public SavedItemsViewModel() {
+            LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
+            this.FavLines = new FileDataStore<StoredLine>("favlines.txt");
+            this.FavStations = new FileDataStore<StoredStation>("favstations.txt");
+        }
+
+        async Task ExecuteLoadItemsCommand() {
+            if (IsBusy)
+                return;
+
+            IsBusy = true;
+
+            try {
+                Items.Clear();
+                var lines = (IEnumerable<IInfoEntry>)this.FavLines.GetItems(true);
+                var stations = this.FavStations.GetItems(true);
+                var items = lines.Concat(stations);
+                foreach (var item in items) {
+                    Items.Add(item);
+                }
+            }
+            catch (Exception ex) {
+                Debug.WriteLine(ex);
+            }
+            finally {
+                IsBusy = false;
+            }
+        }
+    }
+
     public class ItemsViewModel : BaseViewModel {
         public ObservableCollection<IInfoEntry> Items { get; set; }
-        public Command LoadItemsCommand { get; set; }
         public IInfoEntry Head { get; set; }
 
-
+        private Func<IEnumerable<IInfoEntry>> refreshLambda;
 
         public ItemsViewModel() {
             Title = "Browse";
             Items = new ObservableCollection<IInfoEntry>();
-            LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
             //MessagingCenter.Subscribe<SearchPage, IInfoEntry>(this, "AddItem", Add);
             //MessagingCenter.Subscribe<ContentPage, IEnumerable<IInfoEntry>>(this, "ReplaceItems", ReplaceItems);
             //MessagingCenter.Subscribe<ContentPage, Func<IEnumerable<IInfoEntry>>>(this, "FetchReplaceItems", FetchItemsAndReplace);
         }
 
-        public ItemsViewModel(IInfoEntry head) :this() {
+        public ItemsViewModel(IInfoEntry head) : this() {
             Title = head.Name;
             this.Head = head;
+            this.refreshLambda = head.LinkClick;
             this.FetchItemsAndReplace(null, head.LinkClick);
         }
 
         public ItemsViewModel(Func<IEnumerable<IInfoEntry>> lambda, string title = "View") : this() {
             Title = title;
+            refreshLambda = lambda;
             FetchItemsAndReplace(null, lambda);
         }
 
@@ -46,10 +83,9 @@ namespace Form.ViewModels {
 
         //}
 
-        async void Save() {
-            foreach (IInfoEntry item in this.Items) {
-                await this.DataStore.AddItemAsync(item);
-            }
+
+        public void Refresh() {
+            FetchItemsAndReplace(null, this.refreshLambda);
         }
 
         void Add(SearchPage sender, IInfoEntry item) {
@@ -79,27 +115,6 @@ namespace Form.ViewModels {
             await task;
             this.IsBusy = false;
             //ReplaceItems(sender, req.Method(req.keyword));
-        }
-
-        async Task ExecuteLoadItemsCommand() {
-            if (IsBusy)
-                return;
-
-            IsBusy = true;
-
-            try {
-                Items.Clear();
-                var items = await DataStore.GetItemsAsync(true);
-                foreach (var item in items) {
-                    Items.Add(item);
-                }
-            }
-            catch (Exception ex) {
-                Debug.WriteLine(ex);
-            }
-            finally {
-                IsBusy = false;
-            }
         }
     }
 }

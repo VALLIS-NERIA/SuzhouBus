@@ -30,6 +30,8 @@
                           RefreshCommand="{Binding LoadItemsCommand}"
                           IsRefreshing="{Binding IsBusy, Mode=OneWay}"
                           CachingStrategy="RecycleElement"
+                          IsPullToRefreshEnabled="True"
+                          Refreshing="ItemsListView_OnRefreshing"
                           ItemSelected="OnItemSelected">
                     <ListView.ItemTemplate>
                         <DataTemplate>

@@ -5,20 +5,23 @@ using LibBusQuery;
 
 namespace Form.Services
 {
-    public interface IDataStore<T> {
-        Task<bool> LoadAsync(string fileName);
-
-        Task<bool> SaveAsync(string fileName);
-        Task<bool> SaveAsAsync(string fileName);
-        Task<bool> AddItemAsync(T item);
-        Task<bool> UpdateItemAsync(T item);
-        Task<bool> DeleteItemAsync(T item);
-        Task<T> GetItemAsync(string id);
-        Task<IEnumerable<T>> GetItemsAsync(bool forceRefresh = false);
+    public interface IDataStore<out T> where T:IInfoEntry {
+        string FileName { get; }
+        bool Bind(string fileName);
+        bool Load();
+        bool Save();
+        // SaveAs should not change the bind
+        bool SaveAs(string fileName);
+        bool AddItem(IInfoEntry item);
+        T GetItem(string id);
+        bool UpdateItem(IInfoEntry item);
+        bool DeleteItem(IInfoEntry item);
+        IEnumerable<T> GetItems(bool forceRefresh = false);
     }
 
     public interface IStoredEntry : IInfoEntry {
         void FromString(string s);
+        void FromEntry(IInfoEntry entry);
         new string ToString();
     }
 }
