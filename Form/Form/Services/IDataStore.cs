@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using LibBusQuery;
 
 namespace Form.Services
 {
@@ -14,5 +15,10 @@ namespace Form.Services
         Task<bool> DeleteItemAsync(T item);
         Task<T> GetItemAsync(string id);
         Task<IEnumerable<T>> GetItemsAsync(bool forceRefresh = false);
+    }
+
+    public interface IStoredEntry : IInfoEntry {
+        void FromString(string s);
+        new string ToString();
     }
 }
