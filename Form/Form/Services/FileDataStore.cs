@@ -164,7 +164,6 @@ namespace Form.Services {
             catch {
                 return false;
             }
-
         }
 
         public bool DeleteItem(IInfoEntry item) {
@@ -182,6 +181,16 @@ namespace Form.Services {
                 Load();
             }
             return this.dict.Values;
+        }
+    }
+
+    public static class Fav {
+        public static FileDataStore<StoredLine> FavLines { get; }
+        public static FileDataStore<StoredStation> FavStations { get;}
+
+        static Fav() {
+            FavLines = new FileDataStore<StoredLine>("favlines.txt");
+            FavStations = new FileDataStore<StoredStation>("favstations.txt");
         }
     }
 }

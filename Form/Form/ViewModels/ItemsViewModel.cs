@@ -15,13 +15,11 @@ using Form.Views;
 namespace Form.ViewModels {
     public class SavedItemsViewModel : ItemsViewModel {
         public Command LoadItemsCommand { get; set; }
-        public FileDataStore<StoredLine> FavLines { get; set; }
-        public FileDataStore<StoredStation> FavStations { get; set; }
+
 
         public SavedItemsViewModel() {
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
-            this.FavLines = new FileDataStore<StoredLine>("favlines.txt");
-            this.FavStations = new FileDataStore<StoredStation>("favstations.txt");
+
         }
 
         async Task ExecuteLoadItemsCommand() {
@@ -32,8 +30,8 @@ namespace Form.ViewModels {
 
             try {
                 Items.Clear();
-                var lines = (IEnumerable<IInfoEntry>)this.FavLines.GetItems(true);
-                var stations = this.FavStations.GetItems(true);
+                var lines = (IEnumerable<IInfoEntry>)Fav.FavLines.GetItems(true);
+                var stations = Fav.FavStations.GetItems(true);
                 var items = lines.Concat(stations);
                 foreach (var item in items) {
                     Items.Add(item);

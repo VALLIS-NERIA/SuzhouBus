@@ -8,6 +8,7 @@
         <Label Text="{Binding Item.Name}" FontSize="Small"/>
         <Label Text="Description:" FontSize="Medium" />
         <Label Text="{Binding Item.Description}" FontSize="Small"/>
-        <Button Text="Detail Information" Clicked="SeeDetail"/>
+        <Button Text="View Bus Info" Clicked="SeeDetail"/>
+        <Button Text="Add to Favorite" Clicked="SeeDetail"/>
     </StackLayout>
 </ContentPage>

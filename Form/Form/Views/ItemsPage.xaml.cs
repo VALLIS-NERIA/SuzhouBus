@@ -28,18 +28,9 @@ namespace Form.Views {
 
         public ItemsPage(Func<IEnumerable<IInfoEntry>> lambda, string title = "View") : this(new ItemsViewModel(lambda, title)) { }
 
-        async void OnItemSelected(object sender, SelectedItemChangedEventArgs args) {
-            var item = args.SelectedItem as IInfoEntry;
-            if (item == null)
-                return;
 
-            await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(item)));
 
-            // Manually deselect item.
-            ItemsListView.SelectedItem = null;
-        }
-
-        async void Close_Clicked(object sender, EventArgs e) {
+        protected virtual async void Close_Clicked(object sender, EventArgs e) {
             var staack = Navigation.NavigationStack;
             var mainPage = this.Parent.Parent as TabbedPage;
             var navigationPage = this.Parent as NavigationPage;
@@ -54,8 +45,9 @@ namespace Form.Views {
             var button = sender as Button;
             var item = button.BindingContext as IInfoEntry;
             if (item == null) return;
+            Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(item)));
 
-            Navigation.PushAsync(new ItemsPage(item));
+            //Navigation.PushAsync(new ItemsPage(item));
             //SendFetchMessage(this, () => item.LinkClick());
             //MessagingCenter.Send<ContentPage,Func<IEnumerable<IInfoEntry>>>(this, "FetchReplaceItems", ()=>item.LinkClick());
 
@@ -63,6 +55,19 @@ namespace Form.Views {
             //var list = item.LinkClick();
             //this.viewModel.ReplaceItems(this, list);
             //this.IsBusy = false;
+        }
+
+        async void OnItemSelected(object sender, SelectedItemChangedEventArgs args) {
+            var s =System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
+            var item = args.SelectedItem as IInfoEntry;
+            if (item == null)
+                return;
+            await Navigation.PushAsync(new ItemsPage(item));
+
+            // await Navigation.PushAsync(new ItemDetailPage(new ItemDetailViewModel(item)));
+
+            // Manually deselect item.
+            ItemsListView.SelectedItem = null;
         }
 
         private void ItemsListView_OnRefreshing(object sender, EventArgs e) {

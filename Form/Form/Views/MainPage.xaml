@@ -4,14 +4,14 @@
             xmlns:views="clr-namespace:Form.Views"
             x:Class="Form.Views.MainPage">
     <TabbedPage.Children>
-        <NavigationPage Title="About">
+        <NavigationPage Title="Favorites">
             <NavigationPage.Icon>
                 <OnPlatform x:TypeArguments="FileImageSource">
                     <On Platform="iOS" Value="tab_about.png" />
                 </OnPlatform>
             </NavigationPage.Icon>
             <x:Arguments>
-                <views:AboutPage />
+                <views:FavPage />
             </x:Arguments>
         </NavigationPage>
         

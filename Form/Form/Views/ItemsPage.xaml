@@ -6,7 +6,7 @@
              Title="{Binding Title}"
              x:Name="BrowseItemsPage">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Close" Clicked="Close_Clicked" />
+        <ToolbarItem x:Key="myTool" x:Name="CloseTool" Text="Close" Clicked="Close_Clicked" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
 
@@ -20,9 +20,7 @@
                 <Label Text="Loading..." HorizontalOptions="Center" TextColor="Black" />
 
             </StackLayout>
-
             <StackLayout AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1">
-
                 <ListView x:Name="ItemsListView"
                           ItemsSource="{Binding Items}"
                           VerticalOptions="FillAndExpand"
@@ -36,7 +34,7 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <Grid>
+                                <Grid x:Name="GridInItem">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
